@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import CategoryService from '../services/CategoryService';
+import { Link } from 'react-router-dom';
 
 function CategoryComponent() {
 
-    const [category, setCategory] = useState([])
+    const [Category, setCategory] = useState([])
 
     useEffect(() => {
         getCategories()
@@ -17,6 +18,7 @@ function CategoryComponent() {
         });
     };
 
+
     return (
         <div className = "container">
             
@@ -25,7 +27,6 @@ function CategoryComponent() {
             <table className = "table table-striped">
                 <thead>
                     <tr>
-                        
                         <th>Category Name</th>
                         <th>Category Description</th>
                     </tr>
@@ -33,13 +34,12 @@ function CategoryComponent() {
                 </thead>
                 <tbody>
                     {
-                        category.map(
+                        Category.map(
                                 category =>
                                 <tr key = {category.cid}>
-                                    
-                                    <td> {category.title }</td>
+                                    <td> { category.title }</td>
                                     <td> {category.description }</td>   
-                                    <td><button type="button" class="btn btn-primary">Attempt</button></td>
+                                    <td><Link class="btn btn-primary" to={`/viewquizbycategory/${category.cid}`}>Attempt</Link></td>
                                 </tr>
 
                         )

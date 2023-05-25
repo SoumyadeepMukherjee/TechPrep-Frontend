@@ -9,20 +9,22 @@
 .navbar {
   padding: 20px;
   display: flex;
-  max-width: 600px;
+  width: 100%;
   margin: 0 auto;
   border-bottom: 1px solid #f2f2f2;
 }
 .navbar h1 {
   color: #f1356d;
+  padding-left: 50px;
 }
 .navbar .links {
   margin-left: auto;
+  padding-right: 100px;
 }
 .navbar a {
   margin-left: 16px;
   text-decoration: none;
-  padding: 6px;
+  padding: 25px;
 }
 .navbar a:hover {
   color: #f1356d;
@@ -53,4 +55,14 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+.footer{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  height:50px;
+  background-color: black;
+  text-align: center;
+  color: white;
 }
