@@ -11,6 +11,10 @@ class QuizService{
     getQuizzesByCategory(cid){
         return axios.get(QUIZ_API_BASE_URL+'/viewquizbycategory/'+cid);
     }
+
+    getQuizByQuizId(qid){
+        return axios.get(QUIZ_API_BASE_URL+'/'+qid);
+    }
 }
 
 export default new QuizService();

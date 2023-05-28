@@ -1,0 +1,17 @@
+.quiz-details {
+    display: flex;
+}
+
+.quiz-manual {
+    width: 80%;
+    height: fit-content;
+    margin: 0px auto;
+}
+
+.quizManualPage__content--section {
+    margin-bottom: 30px;
+}
+
+hr{
+    margin: 10px;
+}

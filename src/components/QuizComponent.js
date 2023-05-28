@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom';
 import QuizService from '../services/QuizService';
+import { Link } from 'react-router-dom';
 
 const QuizComponent = () => {
         
@@ -45,7 +46,7 @@ return (
                                 <td> {quiz.description }</td>
                                 <td> {quiz.noOfQs} </td>   
                                 <td> {quiz.maxMarks} </td>
-                                <td><button type="button" class="btn btn-primary">Attempt</button></td>
+                                <td><Link class="btn btn-primary" to={`/viewquizdetails/${quiz.qid}`}>Attempt</Link></td>
                             </tr>
 
                     )
