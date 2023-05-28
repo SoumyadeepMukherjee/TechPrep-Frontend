@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter as Router, Routes , Route,Link} from "react-router-dom";
+import {BrowserRouter as Router, Routes , Route, withRouter } from "react-router-dom";
 import Home from './components/Home';
 import About from './components/About';
 import Contact from './components/Contact';
@@ -8,6 +8,7 @@ import QuizComponent from "./components/QuizComponent";
 import QuizDetails from "./components/QuizDetails";
 import LoginComponent from "./components/LoginComponent";
 import QuestionComponent from "./components/QuestionComponent";
+import UserDashboard from "./components/UserDashboard";
 
 const MyRoute = () => {
   return (
@@ -19,6 +20,7 @@ const MyRoute = () => {
           <Route path="/about" element={<About />}></Route>
           <Route path="/viewcategories" element={<CategoryComponent />}></Route>
           <Route path="/contact" element={<Contact />}></Route>
+          <Route path="/user/:userName" element={ <UserDashboard />}></Route>
           <Route path="/viewquizbycategory/:cid" element={<QuizComponent />}></Route>
           <Route path="/viewquizdetails/:qid" element={<QuizDetails />}></Route>
           <Route path="/questions/:qid/:title" element={<QuestionComponent />}></Route>

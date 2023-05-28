@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import UserService from '../services/UserService';
+import { Link } from 'react-router-dom';
 
-const LoginComponent = () => {
+const LoginComponent = ( {history} ) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [userName,setUserName] = useState('');
   const [error, setError] = useState('');
 
   const handleEmailChange = (e) => {
@@ -13,6 +15,14 @@ const LoginComponent = () => {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
+
+  const handleUserNameChange = (e) => {
+    setUserName(e.target.value);
+  }
+
+//   const handleLogin = (userId) => {
+//     navigate(`/user/userId=${userId}`);
+//   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +35,8 @@ const LoginComponent = () => {
       if (response.status === 200) {
         // User is authenticated, perform login actions
         console.log('User logged in:', email);
+        
+        history.push(`user/${userName}`)
         // Reset the form
         setEmail('');
         setPassword('');
@@ -54,6 +66,16 @@ const LoginComponent = () => {
           />
         </div>
         <div>
+          <label htmlFor="text">User Name:</label>
+          <input
+            type="text"
+            id="username"
+            value={userName}
+            onChange={handleUserNameChange}
+            required
+          />
+        </div>
+        <div>
           <label htmlFor="password">Password:</label>
           <input
             type="password"
@@ -63,7 +85,7 @@ const LoginComponent = () => {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <Link class="btn btn-primary" type="submit" to={`/user/${userName}`}>Login</Link>
       </form>
     </div>
   );

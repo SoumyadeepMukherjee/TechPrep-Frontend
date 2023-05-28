@@ -15,7 +15,7 @@ const Home = () => {
         <p>Navigate to the Categories to view the available courses</p>
         <p>Login to attempt our quizzes</p>
         <Link onClick={handleLogin} class="btn btn-primary" to='/login'>
-          Login
+          Get Started
         </Link>
       </div>
     </div>

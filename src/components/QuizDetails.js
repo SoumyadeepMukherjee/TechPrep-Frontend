@@ -13,7 +13,7 @@ const QuizDetails = () => {
   );
 
   const startQuizHandler = (quizTitle, quizId) => {
-    navigate(`/questions/quizId=${quizId}/quizTitle=${quizTitle}`);
+    navigate(`/questions/${quizId}/${quizTitle}`);
   };
 
   useEffect(() => {
