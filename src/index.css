@@ -66,3 +66,35 @@
   text-align: center;
   color: white;
 }
+
+.login{
+  padding-top:150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.fields{
+  padding-bottom: 20px;
+  display: flex;
+}
+
+.submit-button{
+  padding-left: 600px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+/* .question{
+  text-align: center;
+} */
+
+.score{
+  text-align: center;
+}
+
+.quizManualPage__content--section{
+  margin-top: 10px;
+}

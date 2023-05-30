@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import UserService from '../services/UserService';
 import CategoryComponent from './CategoryComponent';
 import { useParams } from 'react-router-dom';
+import QuizResultsComponent from './QuizResultsComponent';
 
 const UserDashboardComponent = () => {
   const [userProfile, setUserProfile] = useState(null);
@@ -28,7 +29,6 @@ const UserDashboardComponent = () => {
 
   return (
     <div>
-      <h2>User Dashboard</h2>
       {userProfile && (
         <div>
           <h3>User Profile</h3>
@@ -36,12 +36,39 @@ const UserDashboardComponent = () => {
           <h5>Email: {userProfile.email}</h5>
           <h5>User Name: {userProfile.username}</h5>
           <h5>Phone Number: {userProfile.phone}</h5>
+          <table className = "table table-striped">
+                <thead>
+                    <tr>
+                        <th>Category Name</th>
+                        <th>Category Description</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+          {userProfile.userScores.map(
+                                user =>
+                                <tr key = {user.scoreId}>
+                                    <td> { user.qid }</td>
+                                    <td> {user.score }</td>   
+                                    <td>{user.examDate}</td>
+                          
+                                </tr>
+
+                        )}
+                        </tbody>
+                        </table>
+
         </div>
       )}
+      <br />
         <div>
           <h3>Categories</h3>
           
           <CategoryComponent />
+        </div>
+
+        <div>
+          <QuizResultsComponent />
         </div>
     </div>
   );

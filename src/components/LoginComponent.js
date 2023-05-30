@@ -51,11 +51,11 @@ const LoginComponent = ( {history} ) => {
   };
 
   return (
-    <div>
+    <div className="login">
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         {error && <div className="error">{error}</div>}
-        <div>
+        <div className="fields">
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -65,7 +65,7 @@ const LoginComponent = ( {history} ) => {
             required
           />
         </div>
-        <div>
+        <div className="fields">
           <label htmlFor="text">User Name:</label>
           <input
             type="text"
@@ -75,7 +75,7 @@ const LoginComponent = ( {history} ) => {
             required
           />
         </div>
-        <div>
+        <div className="fields">
           <label htmlFor="password">Password:</label>
           <input
             type="password"

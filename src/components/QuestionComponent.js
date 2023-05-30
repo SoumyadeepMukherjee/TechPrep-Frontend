@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import QuestionService from "../services/QuestionService";
+import QuizResultsComponent from "./QuizResultsComponent";
 
 const QuestionComponent = () => {
   const [questions, setQuestions] = useState([]);
-  const [userAnswers,setUserAnswers] = useState([]);
-  const [score,setScore]=useState(0);
+  const [userAnswers, setUserAnswers] = useState([]);
+  const [score, setScore] = useState(0);
+  const [evaluationModel, setEvaluationModel] = useState(null);
+  const navigate = useNavigate();
 
   const { qid } = useParams();
   const { title } = useParams();
@@ -32,17 +35,33 @@ const QuestionComponent = () => {
     }));
   };
 
-  const calculateScore = () => {
-    let totalScore = 0;
-    questions.forEach((question) => {
-      if (userAnswers[question.quesId] === question.ans) {
-        totalScore += 5;
-      }
-      else{
-        totalScore-=2;
-      }
-    });
-    setScore(totalScore);
+  // const calculateScore = () => {
+  //   let totalScore = 0;
+  //   questions.forEach((question) => {
+  //     if (userAnswers[question.quesId] === question.ans) {
+  //       totalScore += 5;
+  //     }
+  //     else if (userAnswers[question.quesId] !== question.ans){
+  //       totalScore-=2;
+  //     }
+  //   });
+  //   //setScore(totalScore);
+
+  // };
+
+  const handleQuizSubmit = (userId) => {
+    const model = {
+      userId: userId,
+      qid: qid,
+      questions: questions.map((question) => ({
+        userId: userId,
+        quesId: question.quesId,
+        givenAns: userAnswers[question.quesId],
+      })),
+    };
+
+    setEvaluationModel(model);
+    navigate(`/user/${userId}/quizresults`);
   };
 
   return (
@@ -51,10 +70,13 @@ const QuestionComponent = () => {
 
       {questions.length > 0 ? (
         questions.map((question) => (
-          <div key={question.quesId} className="quizManualPage__content--section">
+          <div
+            key={question.quesId}
+            className="quizManualPage__content--section"
+          >
             <h4> {question.content}</h4>
 
-            <form>
+            <form className="question-list">
               <div className="form-check">
                 <input
                   className="form-check-input"
@@ -62,9 +84,14 @@ const QuestionComponent = () => {
                   name={`question-${question.quesId}`}
                   id={`option1-${question.quesId}`}
                   value={question.option1}
-                  onChange={() => handleAnswerChange(question.quesId, question.option1)}
+                  onChange={() =>
+                    handleAnswerChange(question.quesId, question.option1)
+                  }
                 />
-                <label className="form-check-label" htmlFor={`option1-${question.quesId}`}>
+                <label
+                  className="form-check-label"
+                  htmlFor={`option1-${question.quesId}`}
+                >
                   {question.option1}
                 </label>
               </div>
@@ -75,9 +102,14 @@ const QuestionComponent = () => {
                   name={`question-${question.quesId}`}
                   id={`option2-${question.quesId}`}
                   value={question.option2}
-                  onChange={() => handleAnswerChange(question.quesId, question.option2)}
+                  onChange={() =>
+                    handleAnswerChange(question.quesId, question.option2)
+                  }
                 />
-                <label className="form-check-label" htmlFor={`option2-${question.quesId}`}>
+                <label
+                  className="form-check-label"
+                  htmlFor={`option2-${question.quesId}`}
+                >
                   {question.option2}
                 </label>
               </div>
@@ -88,9 +120,14 @@ const QuestionComponent = () => {
                   name={`question-${question.quesId}`}
                   id={`option3-${question.quesId}`}
                   value={question.option3}
-                  onChange={() => handleAnswerChange(question.quesId, question.option3)}
+                  onChange={() =>
+                    handleAnswerChange(question.quesId, question.option3)
+                  }
                 />
-                <label className="form-check-label" htmlFor={`option3-${question.quesId}`}>
+                <label
+                  className="form-check-label"
+                  htmlFor={`option3-${question.quesId}`}
+                >
                   {question.option3}
                 </label>
               </div>
@@ -101,9 +138,14 @@ const QuestionComponent = () => {
                   name={`question-${question.quesId}`}
                   id={`option4-${question.quesId}`}
                   value={question.option4}
-                  onChange={() => handleAnswerChange(question.quesId, question.option4)}
+                  onChange={() =>
+                    handleAnswerChange(question.quesId, question.option4)
+                  }
                 />
-                <label className="form-check-label" htmlFor={`option4-${question.quesId}`}>
+                <label
+                  className="form-check-label"
+                  htmlFor={`option4-${question.quesId}`}
+                >
                   {question.option4}
                 </label>
               </div>
@@ -114,8 +156,22 @@ const QuestionComponent = () => {
         <p>No questions found for this quiz</p>
       )}
 
-      <button type="button" class="btn btn-primary" onClick={calculateScore}>Submit</button>
-      {score !== null && <h3>Your score: {score}</h3>}
+      <div className="submit-button">
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => handleQuizSubmit(101)}>
+          Submit
+        </button>
+      </div>
+
+      {/* <div className="score">
+          <h4>Your Score is: {score}</h4>
+        </div> */}
+
+      {evaluationModel && (
+        <QuizResultsComponent evaluationModel={evaluationModel} />
+      )}
     </div>
   );
 };

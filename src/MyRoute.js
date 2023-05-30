@@ -9,6 +9,7 @@ import QuizDetails from "./components/QuizDetails";
 import LoginComponent from "./components/LoginComponent";
 import QuestionComponent from "./components/QuestionComponent";
 import UserDashboard from "./components/UserDashboard";
+import QuizResultsComponent from "./components/QuizResultsComponent";
 
 const MyRoute = () => {
   return (
@@ -24,6 +25,7 @@ const MyRoute = () => {
           <Route path="/viewquizbycategory/:cid" element={<QuizComponent />}></Route>
           <Route path="/viewquizdetails/:qid" element={<QuizDetails />}></Route>
           <Route path="/questions/:qid/:title" element={<QuestionComponent />}></Route>
+          <Route path="/user/:userId/quizresults" element={<QuizResultsComponent />}></Route>
         </Routes>
       </div>
     </Router>
