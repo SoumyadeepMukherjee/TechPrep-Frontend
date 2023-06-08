@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate  } from "react-router-dom";
 import QuestionService from "../services/QuestionService";
-import QuizResultsComponent from "./QuizResultsComponent";
 
 const QuestionComponent = () => {
   const [questions, setQuestions] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
-  const [score, setScore] = useState(0);
+  //const [score, setScore] = useState(0);
   const [evaluationModel, setEvaluationModel] = useState(null);
   const navigate = useNavigate();
 
   const { qid } = useParams();
   const { title } = useParams();
+  const { userName } = useParams();
 
   useEffect(() => {
     getQuestionsByQuiz(qid);
@@ -49,7 +49,7 @@ const QuestionComponent = () => {
 
   // };
 
-  const handleQuizSubmit = (userId) => {
+  const handleQuizSubmit = (userId,userName,navigate) => {
     const model = {
       userId: userId,
       qid: qid,
@@ -61,7 +61,9 @@ const QuestionComponent = () => {
     };
 
     setEvaluationModel(model);
-    navigate(`/user/${userId}/quizresults`);
+    
+    navigate(`/user/${userName}`);
+    //navigate(`/user/${userId}/quizresults`,{ state: { evaluationModel: model } });
   };
 
   return (
@@ -160,7 +162,7 @@ const QuestionComponent = () => {
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => handleQuizSubmit(101)}>
+          onClick={() => handleQuizSubmit(101,userName,navigate)} >
           Submit
         </button>
       </div>
@@ -169,9 +171,11 @@ const QuestionComponent = () => {
           <h4>Your Score is: {score}</h4>
         </div> */}
 
-      {evaluationModel && (
+      {/* {evaluationModel && (
         <QuizResultsComponent evaluationModel={evaluationModel} />
-      )}
+      )} */}
+
+
     </div>
   );
 };

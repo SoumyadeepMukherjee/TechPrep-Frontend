@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import QuizResultsService from '../services/QuizResultService';
 
-const QuizResultsComponent = ({ evaluationModel}) => {
+const QuizResultsComponent = () => {
+  const location = useLocation();
+  const { userName } = useParams();
+
   const [quizResults, setQuizResults] = useState([]);
 
   useEffect(() => {
-    fetchQuizResults();
+    fetchQuizResultsByUserName();
   }, []);
 
-  const fetchQuizResults = () => {
-    QuizResultsService.fetchQuizResults(evaluationModel)
+  const fetchQuizResultsByUserName = () => {
+    QuizResultsService.fetchQuizResultsByUserName(userName)
       .then(response => {
         setQuizResults(response.data);
         console.log(response.data);
@@ -26,7 +30,7 @@ const QuizResultsComponent = ({ evaluationModel}) => {
         <ul>
           {quizResults.map((result, index) => (
             <li key={index}>
-              <p>Date: {result.date}</p>
+              <p>Date: {result.examDate}</p>
               <p>Time: {result.time}</p>
               <p>Score: {result.score}</p>
             </li>
