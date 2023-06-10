@@ -1,15 +1,15 @@
 import axios from 'axios';
 
-const QUIZ_RESULTS_API_BASE_URL = 'http://localhost:8080/question/quizresults';
+const QUIZ_RESULTS_API_BASE_URL = 'http://localhost:8080/question';
 
 class QuizResultsService {
-  //To be done
-  fetchQuizResults(evaluationModel) {
-    return axios.post(QUIZ_RESULTS_API_BASE_URL, evaluationModel);
-  }
+  
+  // fetchQuizResults(quizResult) {
+  //   return axios.post(`${QUIZ_RESULTS_API_BASE_URL}/scores`, quizResult);
+  // }
 
   fetchQuizResultsByUserName(userName) {
-    return axios.get(`${QUIZ_RESULTS_API_BASE_URL}/${userName}`);
+    return axios.get(`${QUIZ_RESULTS_API_BASE_URL}/${userName}/scores`);
   }
 }
 

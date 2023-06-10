@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import LoginComponent from "./LoginComponent";
+import bg from '../img/bg.svg';
 
 const Home = () => {
   const handleLogin = () => {
@@ -9,8 +10,9 @@ const Home = () => {
 
   return (
     <div className="home">
-      <h1>Welcome to TechPrep!</h1>
+      <h1 className="header">Welcome to TechPrep!</h1>
       <div className="home-content">
+        
         <p>TechPrep is a One-Stop Place to Prepare for various Tech Stacks</p>
         <p>Navigate to the Categories to view the available courses</p>
         <p>Login to attempt our quizzes</p>

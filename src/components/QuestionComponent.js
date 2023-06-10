@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams, useNavigate  } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import QuestionService from "../services/QuestionService";
 
 const QuestionComponent = () => {
   const [questions, setQuestions] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
-  //const [score, setScore] = useState(0);
-  const [evaluationModel, setEvaluationModel] = useState(null);
-  const navigate = useNavigate();
+  const [score, setScore] = useState(null);
+  //const [evaluationModel, setEvaluationModel] = useState(null);
+  //const navigate = useNavigate();
 
   const { qid } = useParams();
   const { title } = useParams();
@@ -35,36 +35,33 @@ const QuestionComponent = () => {
     }));
   };
 
-  // const calculateScore = () => {
-  //   let totalScore = 0;
-  //   questions.forEach((question) => {
-  //     if (userAnswers[question.quesId] === question.ans) {
-  //       totalScore += 5;
-  //     }
-  //     else if (userAnswers[question.quesId] !== question.ans){
-  //       totalScore-=2;
-  //     }
-  //   });
-  //   //setScore(totalScore);
-
-  // };
-
-  const handleQuizSubmit = (userId,userName,navigate) => {
-    const model = {
-      userId: userId,
-      qid: qid,
-      questions: questions.map((question) => ({
-        userId: userId,
-        quesId: question.quesId,
-        givenAns: userAnswers[question.quesId],
-      })),
-    };
-
-    setEvaluationModel(model);
-    
-    navigate(`/user/${userName}`);
-    //navigate(`/user/${userId}/quizresults`,{ state: { evaluationModel: model } });
+  const calculateScore = () => {
+    let totalScore = 0;
+    questions.forEach((question) => {
+      if (userAnswers[question.quesId] === question.ans) {
+        totalScore += 5;
+      } else if (userAnswers[question.quesId] !== question.ans) {
+        totalScore -= 2;
+      }
+    });
+    setScore(totalScore);
   };
+
+  // const handleQuizSubmit = (userId,userName,navigate) => {
+  //   const model = {
+  //     userId: userId,
+  //     qid: qid,
+  //     questions: questions.map((question) => ({
+  //       userId: userId,
+  //       quesId: question.quesId,
+  //       givenAns: userAnswers[question.quesId],
+  //     })),
+  //   };
+
+  //  setEvaluationModel(model);
+
+  //navigate(`/user/${userName}`);
+  //};
 
   return (
     <div className="question">
@@ -162,20 +159,21 @@ const QuestionComponent = () => {
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => handleQuizSubmit(101,userName,navigate)} >
+          onClick={calculateScore}
+        >
           Submit
         </button>
       </div>
 
-      {/* <div className="score">
+      {score !== null && (
+        <div className="score">
           <h4>Your Score is: {score}</h4>
-        </div> */}
-
+        </div>
+      )}
+      
       {/* {evaluationModel && (
         <QuizResultsComponent evaluationModel={evaluationModel} />
       )} */}
-
-
     </div>
   );
 };

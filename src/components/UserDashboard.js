@@ -10,16 +10,14 @@ const UserDashboardComponent = () => {
   const location = useLocation();
 
   useEffect(() => {
-    //const userName = location.pathname.split('/').pop();
     if (userName) {
       fetchUserProfile(userName);
     }
   }, [location]);
 
-  const handleStartQuiz = (qid, title) => {
-    //const userName = location.pathname.split('/').pop();
-    navigate(`/questions/${qid}/${title}/${userName}`);
-  };
+  // const handleStartQuiz = (qid, title) => {
+  //   navigate(`/questions/${qid}/${title}/${userName}`);
+  // };
 
 
   const fetchUserProfile = async (userName) => {
@@ -46,7 +44,7 @@ const UserDashboardComponent = () => {
           <h5>User Name: {userProfile.username}</h5>
           <h5>Phone Number: {userProfile.phone}</h5>
           <br />
-          <h3>Results of Quizzes Attempted</h3>
+          {/* <h3>Results of Quizzes Attempted</h3>
           <table className = "table table-striped">
                 <thead>
                     <tr>
@@ -70,13 +68,13 @@ const UserDashboardComponent = () => {
 
                         )}
                         </tbody>
-                        </table>
+                        </table> */}
 
         </div>
       )}
       <br />
         <div>
-        <CategoryComponent handleStartQuiz={handleStartQuiz} />
+        <CategoryComponent  />
         </div>
 
     </div>
