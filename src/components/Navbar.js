@@ -1,6 +1,6 @@
 const Navbar = () => {
     return ( 
-        <nav className="navbar navbar-expand navbar-dark bg-dark">
+        <div className="navbar">
             <h1>TechPrep</h1>
             <div className="links">
                 <a href="/">Home</a>
@@ -8,7 +8,7 @@ const Navbar = () => {
                 <a href="/contact">Contact Us</a>
                 <a href="/login">Login</a>
             </div>
-        </nav>
+        </div>
      );
 }
  

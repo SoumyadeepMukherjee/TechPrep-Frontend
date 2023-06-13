@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom';
 import QuizService from '../services/QuizService';
 import { Link } from 'react-router-dom';
+import Navbar2 from './Navbar2';
 
 const QuizComponent = () => {
         
@@ -23,6 +24,8 @@ const QuizComponent = () => {
 
 
 return (
+    <>
+    <Navbar2 />
     <div className = "container">
         
         <h1 className = "text-center"> Exam Quiz List</h1>
@@ -56,6 +59,7 @@ return (
         </table>
 
     </div>
+    </>
     );
 }
  

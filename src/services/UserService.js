@@ -4,8 +4,8 @@ const USER_API_BASE_URL = 'http://localhost:8080/user';
 
 class UserService {
 
-  loginUser(email, password) {
-    const credentials = { email, password };
+  loginUser(username, password) {
+    const credentials = { username, password };
     return axios.post(`${USER_API_BASE_URL}/login`, credentials);
   }
 

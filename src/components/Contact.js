@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Navbar from "./Navbar";
 
 const Contact = () => {
   const [name, setName] = useState("");
@@ -21,6 +22,8 @@ const Contact = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="contact">
       <h2>Contact Us</h2>
       <form onSubmit={handleSubmit}>
@@ -66,6 +69,8 @@ const Contact = () => {
         <button class="btn btn-primary" type="submit">Submit</button>
       </form>
     </div>
+    </>
+    
   );
 };
 

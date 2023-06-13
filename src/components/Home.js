@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import LoginComponent from "./LoginComponent";
 import bg from '../img/bg.svg';
+import Navbar from "./Navbar";
 
 const Home = () => {
   const handleLogin = () => {
@@ -9,6 +10,8 @@ const Home = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="home">
       <h1 className="header">Welcome to TechPrep!</h1>
       <div className="home-content">
@@ -21,6 +24,7 @@ const Home = () => {
         </Link>
       </div>
     </div>
+    </>
   );
 };
 

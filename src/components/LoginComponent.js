@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import UserService from '../services/UserService';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import avatar from '../img/avatar.svg';
 import wave from '../img/wave.png';
 import bg from '../img/bg.svg'
+import Navbar from './Navbar';
 
-const LoginComponent = ( {history} ) => {
-  const [email, setEmail] = useState('');
+const LoginComponent = ( ) => {
   const [password, setPassword] = useState('');
   const [userName,setUserName] = useState('');
   const [error, setError] = useState('');
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
+  const navigate=useNavigate();
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
@@ -33,19 +30,19 @@ const LoginComponent = ( {history} ) => {
 
     try {
       // Make an API request to the server to authenticate the user
-      const response = await UserService.loginUser(email, password);
+      const response = await UserService.loginUser(userName, password);
 
       if (response.status === 200) {
         // User is authenticated, perform login actions
-        console.log('User logged in:', email);
+        console.log('User logged in:', userName);
+        navigate(`/user/${userName}`)
         
-        history.push(`user/${userName}`)
         // Reset the form
-        setEmail('');
+        setUserName('');
         setPassword('');
       } else {
         // Authentication failed, display error message
-        setError('Invalid email or password');
+        setError('Invalid username or password');
       }
     } catch (error) {
       console.error('Login failed:', error);
@@ -54,6 +51,8 @@ const LoginComponent = ( {history} ) => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="login">
       <img src={wave}  className="wave" />
       <img src={bg} style={{width:500,height:400,marginRight:550,marginTop:-100}} />
@@ -88,6 +87,7 @@ const LoginComponent = ( {history} ) => {
       </form>
       </div>
     </div>
+    </>
   );
 };
 

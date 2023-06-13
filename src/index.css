@@ -6,11 +6,13 @@
   font-family: "Quicksand";
   color: #333;
 }
+
 .navbar {
-  padding: 20px;
-  display: flex;
-  width: 100%;
+  background-color: #333;
+  width: 1500px;
   margin: 0 auto;
+  position:relative;
+  left:-150px;
   border-bottom: 1px solid #f2f2f2;
 }
 .navbar h1 {
@@ -29,6 +31,12 @@
 .navbar a:hover {
   color: #f1356d;
 }
+
+.userdp{
+  border-radius: 50%;
+  width: 50px;
+}
+
 .content {
   max-width: 600px;
   margin: 40px auto;
@@ -36,7 +44,6 @@
 }
 .header {
   margin-left: -247px;
-
   background-color: white;
 }
 .home{
@@ -76,6 +83,7 @@ margin-right: 300px;
   text-align: center;
 }
 
+
 .footer{
   position:fixed;
   bottom:0;
@@ -88,11 +96,15 @@ margin-right: 300px;
 
 .login,.contact,.about{
   padding-top:150px;
-margin-bottom: auto;
+  margin-bottom: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
+}
+
+.user-profile{
   text-align: center;
 }
 
@@ -109,9 +121,6 @@ margin-bottom: auto;
   margin-bottom: 30px;
 }
 
-/* .question{
-  text-align: center;
-} */
 
 .score{
   text-align: center;

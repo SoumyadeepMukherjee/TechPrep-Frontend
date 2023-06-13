@@ -22,13 +22,13 @@ function CategoryComponent() {
     return (
         <div className = "container">
             
-            <h1 className = "text-center"> Exam Category List</h1>
+            <h1 className = "text-center"> Exams List</h1>
 
             <table className = "table table-striped">
                 <thead>
                     <tr>
-                        <th>Category Name</th>
-                        <th>Category Description</th>
+                        <th>Exam Name</th>
+                        <th>Exam Description</th>
                     </tr>
 
                 </thead>

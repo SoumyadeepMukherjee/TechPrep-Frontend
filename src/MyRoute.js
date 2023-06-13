@@ -10,6 +10,7 @@ import LoginComponent from "./components/LoginComponent";
 import QuestionComponent from "./components/QuestionComponent";
 import UserDashboard from "./components/UserDashboard";
 import QuizResultsComponent from "./components/QuizResultsComponent";
+import UserAccount from "./components/UserAccount";
 
 const MyRoute = () => {
   return (
@@ -22,6 +23,7 @@ const MyRoute = () => {
           <Route path="/viewcategories" element={<CategoryComponent />}></Route>
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="/user/:userName" element={ <UserDashboard />}></Route>
+          <Route path="/user/:userName/profile" element={ <UserAccount />}></Route>
           <Route path="/viewquizbycategory/:cid" element={<QuizComponent />}></Route>
           <Route path="/viewquizdetails/:qid" element={<QuizDetails />}></Route>
           <Route path="/questions/:qid/:title" element={<QuestionComponent />}></Route>

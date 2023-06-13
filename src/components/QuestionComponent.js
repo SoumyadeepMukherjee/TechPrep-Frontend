@@ -1,17 +1,26 @@
-import React, { useState, useEffect } from "react";
+ 
+import React, { useState, useEffect,useRef } from "react";
+import {Alert, Container } from 'react-bootstrap';
 import { Link, useParams, useNavigate } from "react-router-dom";
 import QuestionService from "../services/QuestionService";
+import Navbar2 from "./Navbar2";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
+
 
 const QuestionComponent = () => {
   const [questions, setQuestions] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
   const [score, setScore] = useState(null);
+  const [isClicked,setIsClicked]=useState(false);
+  const [minute, setMinuter] = useState(5);
+  const funRef = useRef(null);
+  const hourSeconds = 300;
   //const [evaluationModel, setEvaluationModel] = useState(null);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const { qid } = useParams();
   const { title } = useParams();
-  const { userName } = useParams();
+  const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
     getQuestionsByQuiz(qid);
@@ -41,10 +50,45 @@ const QuestionComponent = () => {
       if (userAnswers[question.quesId] === question.ans) {
         totalScore += 5;
       } else if (userAnswers[question.quesId] !== question.ans) {
-        totalScore -= 2;
+        
       }
     });
     setScore(totalScore);
+    setIsClicked(!isClicked);
+     setDisabled(true);
+  };
+
+  
+  const renderTime = (dimension, time) => {
+    return (
+      <div className="time-wrapper">
+        <div className="time">{time}</div>
+        <div>{dimension}</div>
+      </div>
+    );
+  };
+
+  useEffect(() => {
+    if (minute !== 0) {
+      funRef.current = setTimeout(() => {
+        setMinuter(minute - 1);
+      }, 60000);
+    } else {
+      clearTimeout(funRef.current);
+    }
+
+  });
+
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     navigate(`/user/${userName}`)
+  //   }, 60000)
+  // }, [])
+
+  const timerProps = {
+    isPlaying: true,
+    size: 120,
+    strokeWidth: 6
   };
 
   // const handleQuizSubmit = (userId,userName,navigate) => {
@@ -64,7 +108,27 @@ const QuestionComponent = () => {
   //};
 
   return (
+    <>
+    <Navbar2 />
+
+     {!isClicked && <CountdownCircleTimer
+        {...timerProps}
+        isPlaying
+        initialRemainingTime={hourSeconds}
+        duration={hourSeconds}
+        colors={[["#3f51b5"]]}
+        onComplete={() => console.log("times up")}
+      >
+        {({ elapsedTime }) => {
+          //console.log(hourSeconds - elapsedTime / 1000);
+          return renderTime("minute", minute);
+        }}
+      </CountdownCircleTimer>}
+
     <div className="question">
+    {isClicked && <Container className='p-4'>
+      <Alert variant="success">Your score is : {score}</Alert>  
+    </Container> }
       <h1>Questions on {title}</h1>
 
       {questions.length > 0 ? (
@@ -158,6 +222,7 @@ const QuestionComponent = () => {
       <div className="submit-button">
         <button
           type="button"
+          disabled={disabled}
           className="btn btn-primary"
           onClick={calculateScore}
         >
@@ -165,16 +230,19 @@ const QuestionComponent = () => {
         </button>
       </div>
 
-      {score !== null && (
+      
+
+      {/* {score !== null && (
         <div className="score">
-          <h4>Your Score is: {score}</h4>
+          alert("Your score is :",score);
         </div>
-      )}
+      )} */}
       
       {/* {evaluationModel && (
         <QuizResultsComponent evaluationModel={evaluationModel} />
       )} */}
     </div>
+    </>
   );
 };
 

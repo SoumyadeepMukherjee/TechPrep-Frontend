@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams,useNavigate, Link } from "react-router-dom";
 import QuizService from "../services/QuizService";
+import Navbar2 from "./Navbar2";
 
 const QuizDetails = () => {
   const navigate = useNavigate();
@@ -30,6 +31,8 @@ const QuizDetails = () => {
   };
 
   return (
+    <>
+    <Navbar2 />
     <div className="quiz-details">
       <h2>Quiz Details</h2>
 
@@ -91,6 +94,7 @@ const QuizDetails = () => {
           <button class="btn btn-primary" onClick={() => startQuizHandler(quiz.title, quiz.qid)}>Start Quiz</button>
       </div>
     </div>
+    </>
   );
 };
 
