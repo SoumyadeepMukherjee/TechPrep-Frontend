@@ -5,14 +5,20 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import QuestionService from "../services/QuestionService";
 import Navbar2 from "./Navbar2";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import QuizResultService from "../services/QuizResultService";
 
 
 const QuestionComponent = () => {
   const [questions, setQuestions] = useState([]);
   const [userAnswers, setUserAnswers] = useState([]);
   const [score, setScore] = useState(null);
+  const [scoreId,setScoreId]= useState(0);
+  const [time,setTime] = useState(120);
+  const [correctAns,setCorrectAns]=useState(0);
+
   const [isClicked,setIsClicked]=useState(false);
-  const [minute, setMinuter] = useState(5);
+  const [minute, setMinuter] = useState(4);
+  const [seconds,setSeconds]=useState(59);
   const funRef = useRef(null);
   const hourSeconds = 300;
   //const [evaluationModel, setEvaluationModel] = useState(null);
@@ -26,6 +32,7 @@ const QuestionComponent = () => {
     getQuestionsByQuiz(qid);
   }, [qid]);
 
+  
   const getQuestionsByQuiz = (qid) => {
     QuestionService.getQuestionsByQuiz(qid)
       .then((response) => {
@@ -45,45 +52,74 @@ const QuestionComponent = () => {
   };
 
   const calculateScore = () => {
-    let totalScore = 0;
+    let totalScore = 0,c=0,s=0;
     questions.forEach((question) => {
       if (userAnswers[question.quesId] === question.ans) {
         totalScore += 5;
-      } else if (userAnswers[question.quesId] !== question.ans) {
-        
-      }
+        c+=1;
+      } 
     });
+    
+    s+=1;
+    const currentTime = new Date().toLocaleString();
+    setScoreId(s);
     setScore(totalScore);
+    setCorrectAns(c);
     setIsClicked(!isClicked);
-     setDisabled(true);
+    setDisabled(true);
+    
+    postQuizResult(scoreId, qid, totalScore, c, currentTime);
   };
 
+  const postQuizResult = (scoreId,qid,score,correctAns,time) =>{
+    
+    try {
+      const response=QuizResultService.postQuizResults(scoreId,qid,score,correctAns,time);
+      response.then((res) => {
+        if (res.status === 200) {
+          console.log("Score is sent!");
+        }
+      });
+    } 
+    catch (error) {
+      console.error('Failed',error);
+    }
+    
+  }
+
   
-  const renderTime = (dimension, time) => {
+  const renderTime = (time) => {
+    const minutes = Math.floor(time / 60).toString().padStart(2, "0");
+    const seconds = (time % 60).toString().padStart(2, "0");
     return (
       <div className="time-wrapper">
-        <div className="time">{time}</div>
-        <div>{dimension}</div>
+        <div className="time">{`${minutes}:${seconds}`}</div>
       </div>
     );
   };
 
   useEffect(() => {
-    if (minute !== 0) {
+    if (minute !== 0 || seconds !== 0) {
       funRef.current = setTimeout(() => {
-        setMinuter(minute - 1);
-      }, 60000);
+        if (seconds === 0) {
+          if (minute === 0) {
+            clearTimeout(funRef.current);
+            // Timer has reached 0:00
+            // Perform any necessary actions here
+          } else {
+            setSeconds(59);
+            setMinuter((prevMinute) => prevMinute - 1);
+            
+          }
+        } else {
+          setSeconds((prevSeconds) => prevSeconds - 1);
+        }
+      }, 1000);
     } else {
-      clearTimeout(funRef.current);
+      clearInterval(funRef.current);
     }
-
-  });
-
-  // useEffect(() => {
-  //   const timeout = setTimeout(() => {
-  //     navigate(`/user/${userName}`)
-  //   }, 60000)
-  // }, [])
+    return () => clearInterval(funRef.current); // Cleanup interval on component unmount
+  }, [minute, seconds]);
 
   const timerProps = {
     isPlaying: true,
@@ -91,27 +127,12 @@ const QuestionComponent = () => {
     strokeWidth: 6
   };
 
-  // const handleQuizSubmit = (userId,userName,navigate) => {
-  //   const model = {
-  //     userId: userId,
-  //     qid: qid,
-  //     questions: questions.map((question) => ({
-  //       userId: userId,
-  //       quesId: question.quesId,
-  //       givenAns: userAnswers[question.quesId],
-  //     })),
-  //   };
-
-  //  setEvaluationModel(model);
-
-  //navigate(`/user/${userName}`);
-  //};
-
   return (
     <>
     <Navbar2 />
 
-     {!isClicked && <CountdownCircleTimer
+    <div className="timer">
+    {!isClicked && <CountdownCircleTimer
         {...timerProps}
         isPlaying
         initialRemainingTime={hourSeconds}
@@ -120,13 +141,15 @@ const QuestionComponent = () => {
         onComplete={() => console.log("times up")}
       >
         {({ elapsedTime }) => {
-          //console.log(hourSeconds - elapsedTime / 1000);
-          return renderTime("minute", minute);
+          console.log(hourSeconds - elapsedTime / 1000);
+          return renderTime(minute * 60 + seconds);
         }}
       </CountdownCircleTimer>}
+    </div>
+     
 
     <div className="question">
-    {isClicked && <Container className='p-4'>
+    {isClicked && <Container className='p-5 mt-5'>
       <Alert variant="success">Your score is : {score}</Alert>  
     </Container> }
       <h1>Questions on {title}</h1>

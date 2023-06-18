@@ -4,9 +4,10 @@ const QUIZ_RESULTS_API_BASE_URL = 'http://localhost:8080/question';
 
 class QuizResultsService {
   
-  // fetchQuizResults(quizResult) {
-  //   return axios.post(`${QUIZ_RESULTS_API_BASE_URL}/scores`, quizResult);
-  // }
+  postQuizResults(scoreId,qid,score,correctAns,time) {
+    const quizResult= {scoreId,qid,score,correctAns,time};
+    return axios.post(`${QUIZ_RESULTS_API_BASE_URL}/scores`, quizResult);
+  }
 
   fetchQuizResultsByUserName(userName) {
     return axios.get(`${QUIZ_RESULTS_API_BASE_URL}/${userName}/scores`);

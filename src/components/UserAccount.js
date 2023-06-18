@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import UserService from '../services/UserService';
 import { useParams, useLocation } from 'react-router-dom';
 import Navbar2 from './Navbar2';
-import profile from '../img/userdp.jpg';
+import avatar from '../img/avatar.svg';
 
 const UserAccount = () => {
     const [userProfile, setUserProfile] = useState(null);
@@ -35,17 +35,36 @@ const UserAccount = () => {
             <Navbar2 />
 
             <div className="user-profile">
-                <img src={profile} style={{borderRadius:"50%"}} />
+                <img src={avatar} style={{borderRadius:"50%",height:"200px",marginTop:"20px",marginBottom:"10px"}} />
                 <br />
                 <div>
                     {userProfile && (
                         <div>
                             <h3>User Profile</h3>
                             <br />
-                            <h5><b>Name:</b>{userProfile.firstName} {userProfile.lastName}</h5>
-                            <h5><b>Email:</b>{userProfile.email}</h5>
-                            <h5><b>User Name:</b>{userProfile.username}</h5>
-                            <h5><b>Phone Number:</b>{userProfile.phone}</h5>
+                            <table className="table table-hover">
+
+                                <tbody>
+                                    <tr>
+                                        <th className="row"><b>Name:</b></th>
+                                        <td>{userProfile.firstName} {userProfile.lastName}</td>
+                                    </tr>
+                                    <tr>
+                                        <th className="row"><b>Email:</b></th>
+                                        <td>{userProfile.email}</td>
+                                    </tr>
+                                    <tr>
+                                        <th className="row"><b>User Name:</b></th>
+                                        <td>{userProfile.username}</td>
+                                    </tr>
+                                    <tr>
+                                        <th className="row"><b>Phone Number:</b></th>
+                                        <td>{userProfile.phone}</td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                            
                             <br />
                         </div>
                     )}
