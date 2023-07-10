@@ -1,11 +1,12 @@
- 
-import React, { useState, useEffect,useRef } from "react";
+ import React, { useState, useEffect,useRef } from "react";
 import {Alert, Container } from 'react-bootstrap';
 import { Link, useParams, useNavigate } from "react-router-dom";
 import QuestionService from "../services/QuestionService";
 import Navbar2 from "./Navbar2";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import QuizResultService from "../services/QuizResultService";
+import DateObject from "react-date-object";
+import $ from 'jquery'
 
 
 const QuestionComponent = () => {
@@ -15,6 +16,7 @@ const QuestionComponent = () => {
   const [scoreId,setScoreId]= useState(0);
   const [time,setTime] = useState(120);
   const [correctAns,setCorrectAns]=useState(0);
+  const[screen,setScreen]= useState(false)
 
   const [isClicked,setIsClicked]=useState(false);
   const [minute, setMinuter] = useState(4);
@@ -27,11 +29,20 @@ const QuestionComponent = () => {
   const { qid } = useParams();
   const { title } = useParams();
   const [disabled, setDisabled] = useState(false);
+  const currentTime=new Date().toLocaleTimeString();
+  const currentDate = new Date().toLocaleDateString();
 
+  const finalDate= currentDate+" "+ currentTime+"hours";
+
+ 
+  
   useEffect(() => {
+    document.title = "TechPrep || Quiz"
     getQuestionsByQuiz(qid);
   }, [qid]);
 
+
+  
   
   const getQuestionsByQuiz = (qid) => {
     QuestionService.getQuestionsByQuiz(qid)
@@ -50,7 +61,49 @@ const QuestionComponent = () => {
       [quesId]: selectedOption,
     }));
   };
+  
+  const autoSubmit=()=>{
+    let totalScore = 0,c=0,s=0;
+    questions.forEach((question) => {
+      if (userAnswers[question.quesId] === question.ans) {
+        totalScore += 5;
+        c+=1;
+      } 
+    });
+    
+    s+=1;
+    
+    //const currentTime=new Date().toLocaleTimeString();
+    // var date=new DateObject();
+    // date.format("YYYY/MM/DD hh:mm:ss");
+    // console.log(date);
+    setScoreId(s);
+    setScore(totalScore);
+    setCorrectAns(c);
+    setIsClicked(!isClicked)
+    setDisabled(true);
+    
+    postQuizResult(scoreId,qid,totalScore,c);
 
+    
+
+    function myUrl()
+    {
+      document.location.href=`http://localhost:3000/viewquizdetails/${qid}`;
+    }
+
+    setTimeout(myUrl,9000);
+  
+
+    //let myDocument = document.documentElement;
+    // if(document.exitFullscreen)
+    // {
+    //   document.exitFullscreen();
+    // }
+  }
+  setTimeout(autoSubmit,5000*12*5)
+
+  
   const calculateScore = () => {
     let totalScore = 0,c=0,s=0;
     questions.forEach((question) => {
@@ -61,15 +114,36 @@ const QuestionComponent = () => {
     });
     
     s+=1;
-    const currentTime = new Date().toLocaleString();
+    
+    //const currentTime=new Date().toLocaleTimeString();
+    // var date=new DateObject();
+    // date.format("YYYY/MM/DD hh:mm:ss");
+    // console.log(date);
     setScoreId(s);
     setScore(totalScore);
     setCorrectAns(c);
     setIsClicked(!isClicked);
     setDisabled(true);
     
-    postQuizResult(scoreId, qid, totalScore, c, currentTime);
-  };
+    postQuizResult(scoreId,qid,totalScore,c);
+
+    setTimeout(myUrl,3000);
+
+    function myUrl()
+    {
+      document.location.href=`http://localhost:3000/viewquizdetails/${qid}`;
+    }
+     
+    //let myDocument = document.documentElement;
+    if(document.exitFullscreen)
+    {
+      document.exitFullscreen();
+    }
+  }
+
+
+
+
 
   const postQuizResult = (scoreId,qid,score,correctAns,time) =>{
     
@@ -126,12 +200,13 @@ const QuestionComponent = () => {
     size: 120,
     strokeWidth: 6
   };
+  
 
   return (
     <>
     <Navbar2 />
-
-    <div className="timer">
+ <div style={{overflowX:'hidden'}}>
+    <div className="timer" >
     {!isClicked && <CountdownCircleTimer
         {...timerProps}
         isPlaying
@@ -141,7 +216,7 @@ const QuestionComponent = () => {
         onComplete={() => console.log("times up")}
       >
         {({ elapsedTime }) => {
-          console.log(hourSeconds - elapsedTime / 1000);
+          //console.log(hourSeconds - elapsedTime / 1000);
           return renderTime(minute * 60 + seconds);
         }}
       </CountdownCircleTimer>}
@@ -264,6 +339,7 @@ const QuestionComponent = () => {
       {/* {evaluationModel && (
         <QuizResultsComponent evaluationModel={evaluationModel} />
       )} */}
+    </div>
     </div>
     </>
   );

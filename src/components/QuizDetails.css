@@ -1,10 +1,11 @@
-.quiz-details {
+/* .quiz-details {
     display: flex;
+    height:1000px;
 }
 
 .quiz-manual {
     width: 80%;
-    height: fit-content;
+    height: 100%;
     margin: 0px auto;
 }
 
@@ -14,4 +15,4 @@
 
 hr{
     margin: 10px;
-}
+} */

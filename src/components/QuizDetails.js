@@ -15,9 +15,15 @@ const QuizDetails = () => {
 
   const startQuizHandler = (quizTitle, quizId) => {
     navigate(`/questions/${quizId}/${quizTitle}`);
+    let myDocument = document.documentElement;
+    if(myDocument.requestFullscreen)
+    {
+          myDocument.requestFullscreen();
+    }
   };
 
   useEffect(() => {
+    document.title = "TechPrep || General Instructions"
     if (quizzes.length == 0) {
       getQuizByQuizId(qid);
     }
@@ -33,7 +39,7 @@ const QuizDetails = () => {
   return (
     <>
     <Navbar2 />
-    <div className="quiz-details">
+    <div className="quiz-details" style={{marginBottom:100,marginTop:30}}>
       <h2>Quiz Details</h2>
 
       <div className="quiz-manual">
@@ -55,7 +61,7 @@ const QuizDetails = () => {
           <ul>
             <li>This quiz is only for practice purpose.</li>
             <li>
-              You have to submit quiz within <strong>10 minutes</strong>.
+              You have to submit quiz within <strong>5 minutes</strong>.
             </li>
             <li>You can attempt the quiz any number of time.</li>
             {quiz && (

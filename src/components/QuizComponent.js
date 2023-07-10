@@ -21,7 +21,9 @@ const QuizComponent = () => {
             console.log(response.data);
             });
         };
-
+        useEffect(()=>{
+            document.title = "TechPrep || Available Quizes"
+        },[]);
 
 return (
     <>

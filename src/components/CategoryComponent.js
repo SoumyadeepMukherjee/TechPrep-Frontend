@@ -8,6 +8,7 @@ function CategoryComponent() {
     const [Category, setCategory] = useState([])
 
     useEffect(() => {
+        document.title = "TechPrep || Categories"
         getCategories()
     }, [])
 

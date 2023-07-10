@@ -8,8 +8,14 @@ const UserAccount = () => {
     const [userProfile, setUserProfile] = useState(null);
     const location = useLocation();
     const { userName } = useParams();
-
+    const currentTime=new Date().toLocaleTimeString();
+    const currentDate = new Date().toLocaleDateString();
+  
+    const finalDate= currentDate+" "+ currentTime+ " "+"hours";
+   
+    
     useEffect(() => {
+        document.title = "TechPrep || User Profile"
         if (userName) {
             fetchUserProfile(userName);
             console.log(userName);
@@ -61,10 +67,12 @@ const UserAccount = () => {
                                         <th className="row"><b>Phone Number:</b></th>
                                         <td>{userProfile.phone}</td>
                                     </tr>
+                                   
+
+
                                 </tbody>
 
                             </table>
-                            
                             <br />
                         </div>
                     )}
